@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		html, body {
+			height: 100%;
+			width: 100%;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#flashContent {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+	<script type="text/javascript">
+		google.load("swfobject", "2.2");
+	</script>
+	<script type="text/javascript">
+		var flashvars = {};
+		var params = {wmode:"${wmode}"};
+		var attributes = {};
+
+		swfobject.embedSWF("${swf}.swf", "flashContent", "${width}", "${height}", "${minPlayerVersion}", "/path/to/expressInstall.swf", flashvars, params, attributes);
+	</script>
+</head>
+<body>
+
+<div id="flashContent"/>
+
+</body>
+</html>

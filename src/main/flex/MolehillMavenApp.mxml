@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+        applicationComplete="applicationCompleteHandler(event)">
+
+    <fx:Script><![CDATA[
+
+        import mx.events.FlexEvent;
+
+        [Bindable]
+        public var driverInfo:String;
+
+        private function applicationCompleteHandler(event:FlexEvent):void {
+            var stage3D:Stage3D = stage.stage3Ds[0];
+            stage3D.addEventListener(Event.CONTEXT3D_CREATE, stage3D_context3DCreateHandler)
+            stage3D.requestContext3D();
+        }
+
+        private function stage3D_context3DCreateHandler(event:Event):void {
+            var stage3D:Stage3D = Stage3D(event.target);
+            driverInfo = stage3D.context3D.driverInfo;
+        }
+        ]]></fx:Script>
+
+
+    <s:Label fontSize="20"
+             text="{driverInfo}"
+             color="{driverInfo == 'Software' ? 0xff0000 : 0x00ff00}"
+             width="100%"
+            />
+
+</s:Application>

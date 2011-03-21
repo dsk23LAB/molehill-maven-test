@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.dsk23.lab</groupId>
+    <artifactId>molehill-maven-test</artifactId>
+    <version>0.1-SNAPSHOT</version>
+
+    <packaging>swf</packaging>
+
+    <properties>
+        <flexmojos.version>4.0-beta-6</flexmojos.version>
+        <flexsdk.version>4.5.0.19786</flexsdk.version>
+        <targetPlayer.version>11.0.0</targetPlayer.version>
+    </properties>
+
+    <build>
+        <sourceDirectory>src/main/flex</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.flexmojos</groupId>
+                <artifactId>flexmojos-maven-plugin</artifactId>
+                <version>${flexmojos.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <sourceFile>MolehillMavenApp.mxml</sourceFile>
+                    <targetPlayer>${targetPlayer.version}</targetPlayer>
+
+                    <!--
+                    for molehill builds, we need to tell the compiler
+                    to output a swf version 13 tag
+                    -->
+                    <swfVersion>13</swfVersion>
+
+                    <!--
+                    flexmojos says the playerglobal doesn't match
+                    the framework version if we supply the swc from
+                    the incubator, so let's switch off the version check
+                    for this module
+                    -->
+                    <ignoreVersionIssues>true</ignoreVersionIssues>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.adobe.flex</groupId>
+                        <artifactId>compiler</artifactId>
+                        <version>${flexsdk.version}</version>
+                        <type>pom</type>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wrapper</goal>
+                        </goals>
+                        <configuration>
+
+                            <!--
+                            configure additional parameters for the htmlwrapper.
+                            we won't get a hardware accelerated Context3D if we
+                            don't supply wmode=direct
+                            -->
+                            <parameters>
+                                <wmode>direct</wmode>
+                                <minPlayerVersion>${targetPlayer.version}</minPlayerVersion>
+                            </parameters>
+
+                            <!--
+                            using a custom htmlwrapper template to add the wmode parameter
+                            -->
+                            <templateURI>folder:src/main/resources/htmlwrapper-template/</templateURI>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>flex-framework</artifactId>
+            <version>${flexsdk.version}</version>
+            <type>pom</type>
+            <exclusions>
+
+                <!--
+                exclude the default playerglobal.swc, so we
+                can define our own dependency below
+                -->
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>playerglobal</artifactId>
+            <version>11.0.0.58-incubator-022711</version>
+            <type>swc</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>sonatype-flexmojos</id>
+            <name>Sonatype Repository Flex Group</name>
+            <url>https://repository.sonatype.org/content/groups/flexgroup/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+
+            <!--
+            the flexmojos-maven-plugin depends on the flex compiler,
+            so this repository group needs to be here as well
+            -->
+            <id>sonatype-flexmojos</id>
+            <name>Sonatype Repository Flex Group</name>
+            <url>https://repository.sonatype.org/content/groups/flexgroup/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+
+            <!--
+            as of 2011-03-19, the 4.0-beta-6 build is available
+            on the staging repository only
+            -->
+            <id>sonatype-oss-staging</id>
+            <name>Sonatype OSS Staging Repository</name>
+            <url>https://oss.sonatype.org/content/groups/staging/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
