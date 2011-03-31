@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.dsk23.lab</groupId>
+    <groupId>com.dsk23.lab.example</groupId>
     <artifactId>molehill-maven-test</artifactId>
     <version>0.1-SNAPSHOT</version>
 
@@ -129,22 +129,6 @@
             <id>sonatype-flexmojos</id>
             <name>Sonatype Repository Flex Group</name>
             <url>https://repository.sonatype.org/content/groups/flexgroup/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-
-            <!--
-            as of 2011-03-19, the 4.0-beta-6 build is available
-            on the staging repository only
-            -->
-            <id>sonatype-oss-staging</id>
-            <name>Sonatype OSS Staging Repository</name>
-            <url>https://oss.sonatype.org/content/groups/staging/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
